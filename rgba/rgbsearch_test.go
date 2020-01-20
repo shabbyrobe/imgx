@@ -1,7 +1,6 @@
 package rgba
 
 import (
-	"fmt"
 	"image/color"
 	"math/rand"
 	"testing"
@@ -19,10 +18,6 @@ func TestRGBPrecacheIndexer(t *testing.T) {
 
 	var same, diff int
 	var indexer = NewRGBPrecacheIndexer(nil)
-
-	defer func() {
-		fmt.Println(max)
-	}()
 
 	rng := rand.New(rand.NewSource(0))
 

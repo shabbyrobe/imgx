@@ -63,17 +63,19 @@ var Palette16Names = []string{
 // foreground escape sequence. Indexes are aligned with termimg.Palette16. For example:
 //
 //	var img image.Paletted
-//	colIdx := img.Pix[img.PixOffset(0, 0)]
-//	escSeq := fmt.Sprintf("\033[%sm", termpalette.Escape16Fg[pix])
+//	pix := img.Pix[img.PixOffset(0, 0)]
+//	esc := fmt.Sprintf("\033[%sm", termpalette.Escape16Fg[pix])
 //
 var Escape16Fg = []string{
 	"30", "31", "32", "33", "34", "35", "36", "37", "90", "91", "92", "93", "94", "95", "96", "97",
 }
 
+// Escape16FgBytes is the []byte equivalent of Escape16Fg.
 var Escape16FgBytes = [][]byte{
 	[]byte("40"), []byte("41"), []byte("42"), []byte("43"), []byte("44"), []byte("45"), []byte("46"), []byte("47"), []byte("100"), []byte("101"), []byte("102"), []byte("103"), []byte("104"), []byte("105"), []byte("106"), []byte("107"),
 }
 
+// Escape16FgInt is the int equivalent of Escape16Fg.
 var Escape16FgInt = []int{
 	30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97,
 }
@@ -97,14 +99,19 @@ var Escape16FgColor = [256]color.RGBA{
 	97: RGBA16[15],
 }
 
+// Escape16Bg contains the strings used to build the color code portion of a 16-color
+// background escape sequence. See Escape16Fg for more details.
+//
 var Escape16Bg = []string{
 	"40", "41", "42", "43", "44", "45", "46", "47", "100", "101", "102", "103", "104", "105", "106", "107",
 }
 
+// Escape16BgBytes is the []byte equivalent of Escape16Bg.
 var Escape16BgBytes = [][]byte{
 	[]byte("30"), []byte("31"), []byte("32"), []byte("33"), []byte("34"), []byte("35"), []byte("36"), []byte("37"), []byte("90"), []byte("91"), []byte("92"), []byte("93"), []byte("94"), []byte("95"), []byte("96"), []byte("97"),
 }
 
+// Escape16BgInt is the int equivalent of Escape16Bg.
 var Escape16BgInt = []int{
 	40, 41, 42, 43, 44, 45, 46, 47, 100, 101, 102, 103, 104, 105, 106, 107,
 }
