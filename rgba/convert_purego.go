@@ -8,7 +8,7 @@ import (
 	"image/color"
 )
 
-func castBytes(data []byte) ([]color.RGBA, error) {
+func castFromBytes(data []byte) ([]color.RGBA, error) {
 	dlen := len(data)
 	if dlen%4 != 0 {
 		return nil, fmt.Errorf("rgba: raw RGBA data must be a multiple of 4")
@@ -25,6 +25,19 @@ func castBytes(data []byte) ([]color.RGBA, error) {
 	}
 
 	return out, nil
+}
+
+func castToBytes(colors []color.RGBA) (data []byte, err error) {
+	data := make([]byte, len(colors)*4)
+
+	for ip, op := 0, 0; ip < dlen; ip, op = ip+1, op+4 {
+		data[op+0] = colors[ip].R
+		data[op+1] = colors[ip].G
+		data[op+2] = colors[ip].B
+		data[op+3] = colors[ip].A
+	}
+
+	return data, nil
 }
 
 func convertRGBAToRGBA(img *image.RGBA) (out *Image, copied bool) {

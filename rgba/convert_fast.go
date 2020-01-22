@@ -10,18 +10,23 @@ import (
 	"unsafe"
 )
 
-func castBytes(data []byte) ([]color.RGBA, error) {
+func castFromBytes(data []byte) ([]color.RGBA, error) {
 	if len(data)%4 != 0 {
 		return nil, fmt.Errorf("rgba: raw RGBA data must be a multiple of 4")
 	}
-
-	// TYPE PUNNING. YOU FIEND. THIS IS TOTAL EVIL. UNSPEAKABLE EVIL. POSSIBLY TOO EVIL.
-	// EXTREME DANGER. If explosions occur, I am sorry. We will have to go back to slow
-	// mode if they occur.
+	// EVIL:
 	header := *(*reflect.SliceHeader)(unsafe.Pointer(&data))
 	header.Len /= 4
 	header.Cap /= 4
 	return *(*[]color.RGBA)(unsafe.Pointer(&header)), nil
+}
+
+func castToBytes(colors []color.RGBA) (data []byte, err error) {
+	// EVIL:
+	header := *(*reflect.SliceHeader)(unsafe.Pointer(&colors))
+	header.Len *= 4
+	header.Cap *= 4
+	return *(*[]byte)(unsafe.Pointer(&header)), nil
 }
 
 var colorVal color.RGBA
@@ -31,7 +36,7 @@ func convertRGBAToRGBA(img *image.RGBA) (out *Image, copied bool) {
 		return convertRGBAToRGBASlow(img)
 	}
 
-	vals, err := CastBytes(img.Pix)
+	vals, err := CastFromBytes(img.Pix)
 	if err != nil {
 		panic(err)
 	}

@@ -12,12 +12,18 @@ type rgbaAtImage interface {
 
 var _ rgbaAtImage = &image.RGBA{}
 
-// CastBytes casts a raw byte array into a slice of color.RGBA values. After calling this,
-// data is no longer safe to use.
+// CastFromBytes casts a raw byte array into a slice of color.RGBA values. After calling this,
+// data is no longer safe to use independently.
 //
 // The length of data must be a multiple of 4.
-func CastBytes(data []byte) ([]color.RGBA, error) {
-	return castBytes(data)
+func CastFromBytes(data []byte) ([]color.RGBA, error) {
+	return castFromBytes(data)
+}
+
+// CastToBytes casts a slice of color.RGBA values into a byte slice, avoiding copies if
+// possible. After calling this, colors is no longer safe to use independently.
+func CastToBytes(colors []color.RGBA) ([]byte, error) {
+	return castToBytes(colors)
 }
 
 // Convert an image.Image into an *image.RGBA.

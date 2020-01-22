@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image"
 	"math/rand"
+	"reflect"
 	"testing"
 
 	"github.com/shabbyrobe/imgx/testimg"
@@ -17,6 +18,31 @@ var (
 	AccessIdxX, AccessIdxY = 30, 40
 	XSize, YSize           = 512, 256
 )
+
+func TestCastBytes(t *testing.T) {
+	rng := rand.New(rand.NewSource(0))
+	gen := testimg.RandBlocks{512, 512, 32, 32}
+	img, _ := Convert(gen.RGBA(rng))
+
+	bts, err := CastToBytes(img.Vals)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(bts) != len(img.Vals)*4 {
+		t.Fatal()
+	}
+
+	col, err := CastFromBytes(bts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(col) != len(img.Vals) {
+		t.Fatal()
+	}
+	if !reflect.DeepEqual(col, img.Vals) {
+		t.Fatal()
+	}
+}
 
 func TestConvertRGBA(t *testing.T) {
 	rng := rand.New(rand.NewSource(0))
